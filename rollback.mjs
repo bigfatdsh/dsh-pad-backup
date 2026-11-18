@@ -35,6 +35,11 @@ const PLUGINS = [
   'dsh-cookie-guard',
   'dsh-wpac',
   'dsh-context',
+  'dsh-univer-office',
+  'dsh-univer-turbo',
+  'dsh-whale-widget',
+  'dsh-pet',
+  'dsh-pet-bibo-voice',
 ]
 
 const snaps = existsSync(profile)

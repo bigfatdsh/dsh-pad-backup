@@ -32,8 +32,9 @@ const VENDORED = [
   'dsh-cookie-guard',
   'dsh-univer-turbo',
   'dsh-wpac',
+  'dsh-pet-bibo-voice',
 ]
-const NPM = ['dsh-univer-office@0.3.7', 'dsh-context@0.82.1', 'dsh-whale-widget@0.4.2']
+const NPM = ['dsh-univer-office@0.3.7', 'dsh-context@0.82.1', 'dsh-whale-widget@0.4.2', 'dsh-pet@0.4.9']
 /** bundle 层顺序：优化 → 记忆 → 文档 → 预设 → 界面（univer-turbo 必须在 univer-office 之后） */
 const BUNDLES = [
   'dsh-exec-optimizer',
@@ -48,6 +49,8 @@ const BUNDLES = [
   'dsh-wpac',
   'dsh-context',
   'dsh-whale-widget',
+  'dsh-pet',
+  'dsh-pet-bibo-voice',
 ]
 const BASE = ['@deepseek-ai/dsh-base', '@deepseek-ai/dsh-web-app', '@deepseek-ai/dsh-experimental-voice-input-bundle']
 
@@ -144,7 +147,25 @@ if (!patchText.includes('id: memory-lite')) {
   log('memory-lite 覆盖已存在，跳过')
 }
 
-// 6. wpac 技能装进技能根目录
+// 6. 桌宠：手机上没有图形显示，桌面 helper 会被自动跳过；这里把配置调成手机尺寸 + 降频
+const petConfig = join(DSH_HOME, 'dsh-pet', 'main-config.jsonc')
+if (existsSync(petConfig)) {
+  log(`调整桌宠配置 → ${petConfig}`)
+  if (!dry) {
+    const cfg = JSON.parse(readFileSync(petConfig, 'utf8'))
+    for (const pet of cfg.pets || []) {
+      pet.size = 200
+      pet.display = 'web'
+      pet.position = { corner: 'top-right', marginX: 8, marginY: 56 }
+    }
+    cfg.eventsRefreshSec = { whisper: 1800, balance: 900, sleepTalk: 3600 }
+    writeFileSync(petConfig, JSON.stringify(cfg, null, 2) + '\n')
+  }
+} else {
+  log('桌宠还没生成配置（首次启动后才有），跳过；重启后再跑一次即可')
+}
+
+// 7. wpac 技能装进技能根目录
 log('安装 wpac 技能')
 run(process.execPath, [join(vendorDir, 'dsh-wpac', 'scripts', 'install-skill.mjs')], root)
 

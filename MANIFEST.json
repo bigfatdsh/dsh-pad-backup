@@ -1,0 +1,23 @@
+{
+  "name": "dsh-pad-backup",
+  "kind": "手机 / 平板 dsh-go 适配版用户备份",
+  "source": "https://github.com/bigfatdsh/dsh-user-backup",
+  "dsh": "0.2.2-rc.1",
+  "profile": "web",
+  "plugins": [
+    "dsh-exec-optimizer@1.1.0",
+    "@alanzhao/dsh-memory-lite@0.4.1-adapted.1",
+    "dsh-optimizer@4.8.0",
+    "dsh-plugin-fast@1.0.0",
+    "dsh-session-cost@1.1.0",
+    "dsh-tool-token-optimizer@1.0.16",
+    "dsh-cookie-guard@1.0.0",
+    "dsh-univer-office@0.3.7",
+    "dsh-univer-turbo@1.0.10",
+    "dsh-wpac@0.8.3",
+    "dsh-context@0.82.1",
+    "dsh-whale-widget@0.4.2"
+  ],
+  "restore": "tar -xzf payload.tar.gz && node restore.mjs",
+  "updatedAt": "2026-11-18T04:59:48.897Z"
+}
